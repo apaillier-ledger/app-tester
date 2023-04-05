@@ -1,8 +1,7 @@
-FROM alpine:3.17
+FROM alpine:3.15
 
-RUN apk add py3-pip \
+RUN apk add python3 \
             py3-qt5 \
-            py3-wheel \
             tesseract-ocr \
             qemu-arm \
             libusb
@@ -26,6 +25,8 @@ RUN cd /tmp && \
     wget "https://github.com/LedgerHQ/ragger/archive/refs/heads/$BRANCH_NAME.zip" -O "$ZIP_NAME" && \
     unzip "$ZIP_NAME" && \
     rm -f "$ZIP_NAME"
+
+RUN python3 -m ensurepip --upgrade && pip3 install --upgrade pip && pip3 install wheel
 
 RUN cd "/tmp/ragger-$(echo -n "$BRANCH_NAME" | tr / -)" && \
     mkdir .git && \
